@@ -30,20 +30,20 @@ function getID() {
 var result = {
       lists: {},
       isGotID : false
-  }
-  
+}
+
 var resutlVue = new Vue({
     el: '#result',
     data: result
   });
 
 function initializeVue(values){
-
-  // values を上手く加工する処理を入れる
-  // リストの要素を ( 順位, 名前, ポイント) に絞ってクラスを付ける
-  
+  var styleN = 0, preRank=values[0][0];
   values = values.map((data, i) => {
-    return{rank:data[0], name:data[1], point:data[2], id:("line" + i)};
+    if(data[0] != preRank) styleN++;
+    if(styles.length <= styleN) styleN--;
+    preRank = data[0];
+    return {rank:data[0], name:data[1], point:data[2], id:("line" + i), style:styles[styleN]};
   });
 
   result.lists = values;
@@ -65,7 +65,10 @@ Vue.component("list-row" ,{
   },
   template : `
     <div>
-      <div class="item" v-bind:class="{invisible: !visible, visible: visible}">
+      <div class="item" 
+        v-bind:class="{invisible: !visible, visible: visible}"
+        v-bind:style="data.style"
+      >
         <div class="rank">{{data.rank}}</div>
         <div class="name">{{data.name}}</div>
         <div class="point">{{data.point}}</div>

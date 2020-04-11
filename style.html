@@ -1,0 +1,43 @@
+<script>
+
+function makeBorderShadow(color) {
+  var shadows = []
+  for(var i=0; i<3; i++) {
+    for(var k=0; k<3; k++) {
+      shadows.push(`${i-1}px ${k-1}px ${color}`);
+    }
+  }
+  return shadows.join(',');
+}
+
+function makeStyle(data) {
+  data["text-shadow"] = makeBorderShadow(data.shadow);
+  return data
+}
+  
+var styles = [
+  {
+    color : "white",
+    shadow : "red",
+    "font-size" : "xx-large"
+  },
+  {
+    color : "white",
+    shadow : "blue",
+    "font-size" : "x-large"
+  },
+  {
+    color : "white",
+    shadow : "green",
+    "font-size" : "x-large"
+  },
+  {
+    color : "white",
+    shadow : "black",
+    "font-size" : "large"
+  }
+]
+
+styles = styles.map((data) => (makeStyle(data)))
+
+</script>
