@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+  </head>
+  <body>
+    <!-- スプレッドシートのid を取得する部分 -->
+    <div id="getSheetID" v-if="isNotGotID">
+      <h1>{{ appTitle }}</h1>
+      <p>スプレッドシートの値を読み込んで表示するアプリです。</p>
+      <p>配信などで投票結果を表示するために、作りました。</p>
+      <p>入力したIDのスプレッドシートで、1番左にあるシートを読み込みます。</p>
+      <input
+        v-model="sheetID"
+        placeholder="スプレッドシートのIDを入力してください"
+      />
+      <button onclick="getID()">表示</button>
+    </div>
+    
+    <div id="result" v-if="isGotID">
+      <div　class="result-list">
+        <div class="list-line" v-for="(list, listIndex) in lists" :id=list.id>
+          <list-row v-bind:data=list></list-row>
+        </div>
+      </div>
+    </div>
+    
+    <div id="footer">
+      <!--<button onclick="">reset</button>-->
+      <p>リセットするには、リロードをしてください。</p>
+      {{ appTitle }}<br/>
+      <a href="">製作者:珠響そうき</a>
+    </div>
+    
+    <?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+  </body>
+</html>

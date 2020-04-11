@@ -1,0 +1,48 @@
+<style>
+
+.result-list {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.visible {
+  animation-name: fadein;
+  animation-duration: 2s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.invisible {
+  opacity: 0.0;
+}
+
+.list-line {
+  margin : 20px;
+  padding : 10px;
+}
+
+.rank, .name, .point {
+  margin : 5px;
+  display: inline-block;
+}
+
+.show-button {
+  background : whitesmoke;
+  border : 0px;
+  
+  position: absolute;
+  right: 0px;
+  margin : 10px;
+  
+  display : inline-block;
+}
+
+</style>

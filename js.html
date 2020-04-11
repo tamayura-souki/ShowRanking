@@ -1,0 +1,79 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script>
+
+var appTitle = "結果発表クン";
+
+new Vue({
+  el:"#footer",
+  data: {
+    appTitle: appTitle
+  }
+});
+
+var getIDData = {
+  appTitle : appTitle,
+  sheetID : "",
+  isNotGotID : true
+}
+
+var getIDVue = new Vue({
+    el:"#getSheetID",
+    data: getIDData
+  });
+
+
+function getID() {
+  sheetID = getIDData.sheetID;
+  google.script.run.withSuccessHandler(initializeVue).getSpreadsheetValues(sheetID);
+};
+
+var result = {
+      lists: {},
+      isGotID : false
+  }
+  
+var resutlVue = new Vue({
+    el: '#result',
+    data: result
+  });
+
+function initializeVue(values){
+
+  // values を上手く加工する処理を入れる
+  // リストの要素を ( 順位, 名前, ポイント) に絞ってクラスを付ける
+  
+  values = values.map((data, i) => {
+    return{rank:data[0], name:data[1], point:data[2], id:("line" + i)};
+  });
+
+  result.lists = values;
+  result.isGotID = true;
+  getIDData.isNotGotID = false;
+}
+
+Vue.component("list-row" ,{
+  props : ['data'],
+  data : () => {
+    return {
+      visible : false
+    }
+  },
+  methods: {
+    show: function() {
+      this.visible = !this.visible;
+    }
+  },
+  template : `
+    <div>
+      <div class="item" v-bind:class="{invisible: !visible, visible: visible}">
+        <div class="rank">{{data.rank}}</div>
+        <div class="name">{{data.name}}</div>
+        <div class="point">{{data.point}}</div>
+      </div>
+      <button class="show-button" v-on:click="show">表示</button>
+    </div>
+  `
+})
+
+
+</script>
